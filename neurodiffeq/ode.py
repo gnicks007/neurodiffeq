@@ -114,15 +114,18 @@ def solve(ode, condition, t_min, t_max,
     :param tol: the training stops if the loss is lower than this value
     :param monitor: a Monitor instance
     """
+
+    print("inside solve again again")
+
     nets = None if not net else [net]
-    solution, loss_history  = solve_system(
+    solution, loss_history, nets  = solve_system(
         ode_system=lambda x, t: [ode(x, t)], conditions=[condition], 
         t_min=t_min, t_max=t_max, nets=nets, 
         example_generator=example_generator, shuffle=shuffle,
         optimizer=optimizer, criterion=criterion, batch_size=batch_size, 
         max_epochs=max_epochs, tol=tol, monitor=monitor
     )
-    return lambda t: solution(t)[0], loss_history
+    return lambda t: solution(t)[0], loss_history, nets[0]
 
 
 def solve_system(ode_system, conditions, t_min, t_max,
@@ -227,4 +230,4 @@ def solve_system(ode_system, conditions, t_min, t_max,
     if loss_history[-1] > tol:
         print('The solution has not converged.')
         
-    return solution, loss_history, Fvts
+    return solution, loss_history, nets
