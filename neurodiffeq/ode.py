@@ -227,4 +227,4 @@ def solve_system(ode_system, conditions, t_min, t_max,
     if loss_history[-1] > tol:
         print('The solution has not converged.')
         
-    return solution, loss_history
+    return solution, loss_history, Fvts
